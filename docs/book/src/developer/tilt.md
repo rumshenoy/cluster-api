@@ -37,10 +37,34 @@ make envsubst
 ### Create a kind cluster
 
 First, make sure you have a kind cluster and that your `KUBECONFIG` is set up correctly:
-
-``` bash
+{{#tabs name:"install-kind" tabs:">=v0.9.x, Docker infrastructure provider - CAPD"}}
+{{#tab >=v0.9.x}}
+                                                                   
+```bash
 kind create cluster
 ```
+
+{{#/tab }}
+{{#tab Docker infrastructure provider - CAPD}}
+
+Run the following command to create a kind config file for allowing the Docker provider to access Docker on the host:
+
+```bash
+cat > kind-cluster-with-extramounts.yaml <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraMounts:
+    - hostPath: /var/run/docker.sock
+      containerPath: /var/run/docker.sock
+EOF
+```
+
+Then follow the instruction for your kind version using  `kind create cluster --config kind-cluster-with-extramounts.yaml`
+to create the management cluster using the above file.
+
+{{#/tab }}
 
 ### Create a tilt-settings.json file
 

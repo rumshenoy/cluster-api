@@ -38,6 +38,8 @@ export KUBECONFIG=<...>
 
 **Minimum [kind] supported version**: v0.9.0
 
+Note for macOS users: you may need to [increase the memory available](https://docs.docker.com/docker-for-mac/#resources) for containers (recommend 6Gb for CAPD).
+
 </aside>
 
 [kind] can be used for creating a local Kubernetes cluster for development environments or for
@@ -546,7 +548,7 @@ For the purpose of this tutorial, we'll name our cluster capi-quickstart.
 
 ```bash
 clusterctl config cluster capi-quickstart \
-  --kubernetes-version v1.18.16 \
+  --kubernetes-version v1.19.7 \
   --control-plane-machine-count=3 \
   --worker-machine-count=3 \
   > capi-quickstart.yaml
@@ -565,7 +567,7 @@ The Docker provider is not designed for production use and is intended for devel
 
 ```bash
 clusterctl config cluster capi-quickstart --flavor development \
-  --kubernetes-version v1.18.16 \
+  --kubernetes-version v1.19.7 \
   --control-plane-machine-count=3 \
   --worker-machine-count=3 \
   > capi-quickstart.yaml
@@ -625,7 +627,7 @@ You should see an output is similar to this:
 
 ```bash
 NAME                            INITIALIZED   API SERVER AVAILABLE   VERSION    REPLICAS   READY   UPDATED   UNAVAILABLE
-capi-quickstart-control-plane   true                                 v1.18.16   3                  3         3
+capi-quickstart-control-plane   true                                 v1.19.7   3                  3         3
 ```
 
 <aside class="note warning">
@@ -711,6 +713,11 @@ Delete management cluster
 ```bash
 kind delete cluster
 ```
+<aside class="note warning">
+
+Running `kubectl delete -f capi-quickstart.yaml` to delete clusters currently doesn't work and is being investigated.
+
+</aside>
 
 ## Next steps
 
